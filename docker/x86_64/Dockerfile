@@ -1,10 +1,10 @@
 FROM ubuntu:18.04
 
-ARG USER_ID
-ARG GROUP_ID
+# ARG USER_ID
+# ARG GROUP_ID
 
-RUN addgroup --gid $GROUP_ID user
-RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
+# RUN addgroup --gid $GROUP_ID user
+# RUN adduser --disabled-password --gecos '' --uid $USER_ID --gid $GROUP_ID user
 
 RUN apt-get update -qq && apt-get install -y wget unzip cmake make build-essential git python3 python3-pip
 RUN wget -q https://developer.arm.com/-/media/Files/downloads/gnu-rm/9-2020q2/gcc-arm-none-eabi-9-2020-q2-update-x86_64-linux.tar.bz -O - | tar -xj -C /opt/
@@ -13,5 +13,11 @@ RUN wget -q https://developer.nordicsemi.com/nRF5_SDK/nRF5_SDK_v15.x.x/nRF5_SDK_
 RUN git clone https://github.com/JuulLabs-OSS/mcuboot.git /opt/mcuboot && pip3 install -r /opt/mcuboot/scripts/requirements.txt
 RUN pip3 install adafruit-nrfutil
 
-USER user
+WORKDIR /sources/build
+
+# USER user
+# CMD ["/sources/docker/build.sh"]
+ENV LC_ALL=C.UTF-8
+ENV LANG=C.UTF-8
+
 CMD ["/sources/docker/build.sh"]
